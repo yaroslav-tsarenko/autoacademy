@@ -1,0 +1,57 @@
+.wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.photosGrid {
+  display: flex;
+  align-items: stretch;
+  max-width: 1000px;
+  align-content: center;
+  justify-content: center;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.photoItem {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  width: 310px;
+  height: 415px;
+  border-radius: 1px;
+  border: 1px solid rgba(99, 99, 99, 0.13);
+
+}
+
+.photo {
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+
+.photoItem:hover .photo {
+  transform: scale(1.03);
+}
+
+/* сітка для "Reels" (вертикальне 9:16) */
+.reelsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px;
+}
+
+.reelItem {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 8px;
+}

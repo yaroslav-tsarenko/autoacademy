@@ -1,0 +1,55 @@
+.header{
+  display: flex;
+  padding: var(--20px);
+  width: 100%;
+  background: var(--white);
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+  gap: 30px;
+
+  a {
+    position: relative;
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 500;
+    padding-bottom: 4px;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 2px;
+      border-radius: 50px;
+      background: var(--yellow);
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+.buttons{
+  display: flex;
+  gap: 15px;
+}
+
+
+.inner{
+  display: flex;
+  max-width: 1440px;
+  width: 100%;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}

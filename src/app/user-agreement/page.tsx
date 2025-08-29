@@ -1,9 +1,10 @@
-import Home from "@/pages/home/Home";
 import React from 'react';
 
 const Page = () => {
     return (
-        <Home/>
+        <div>
+            
+        </div>
     );
 };
 
