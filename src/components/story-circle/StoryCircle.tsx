@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import Image, {StaticImageData} from "next/image";
+import React, { useEffect, useState } from "react";
+import Image, { StaticImageData } from "next/image";
 import styles from "./StoryCircle.module.scss";
 
 interface StoryCircleProps {
@@ -11,13 +11,32 @@ interface StoryCircleProps {
     thumbnail?: string;
 }
 
+const useResponsiveSize = (variant: "big" | "small") => {
+    const [size, setSize] = useState(variant === "big" ? 350 : 100);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 1028) {
+                setSize(variant === "big" ? 130 : 100);
+            } else {
+                setSize(variant === "big" ? 350 : 100);
+            }
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [variant]);
+
+    return size;
+};
+
 const StoryCircle: React.FC<StoryCircleProps> = ({
                                                      src,
                                                      alt = "story",
                                                      variant = "small",
                                                      thumbnail = "/placeholder.png",
                                                  }) => {
-    const size = variant === "big" ? 350 : 100;
+    const size = useResponsiveSize(variant);
 
     return (
         <div
@@ -25,9 +44,6 @@ const StoryCircle: React.FC<StoryCircleProps> = ({
             style={{
                 width: size,
                 height: size,
-                backgroundImage: `url(${thumbnail})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
             }}
         >
             <Image

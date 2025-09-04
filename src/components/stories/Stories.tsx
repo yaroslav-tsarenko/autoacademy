@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import styles from "./Stories.module.scss";
 import StoryCircle from "@/components/story-circle/StoryCircle";
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from "react-icons/md";
+import { media } from "@/resources/media";
 
 export type StoryItem = {
     id: string | number;
@@ -19,7 +20,14 @@ interface StoriesProps {
     title?: string;
 }
 
-const Stories: React.FC<StoriesProps> = ({ items, itemVariant = "small", title }) => {
+const items = [
+    { id: 1, title: "Курси",       thumbnail: media.thumbnail_main.src, src: "" },
+    { id: 2, title: "Авто",        thumbnail: media.thumbnail_main.src, src: "" },
+    { id: 3, title: "Інструктори", thumbnail: media.thumbnail_main.src, src: "" },
+    { id: 4, title: "Учні",        thumbnail: media.thumbnail_main.src, src: "" },
+];
+
+const Stories: React.FC<StoriesProps> = ({ itemVariant = "small", title }) => {
     const trackRef = useRef<HTMLDivElement | null>(null);
 
     const scrollByViewport = (dir: "prev" | "next") => {
@@ -45,7 +53,7 @@ const Stories: React.FC<StoriesProps> = ({ items, itemVariant = "small", title }
                             <StoryCircle
                                 src={it.src}
                                 thumbnail={it.thumbnail}
-                                variant={it.variant ?? itemVariant}
+                                variant={itemVariant}
                             />
                             <span className={styles.caption}>{it.title}</span>
                         </div>

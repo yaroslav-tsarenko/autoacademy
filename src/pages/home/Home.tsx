@@ -1,22 +1,29 @@
-import React from 'react';
+"use client";
+
+import React from "react";
+import { Fade } from "react-awesome-reveal";
+
 import Hero from "@/components/hero/Hero";
 import Stories from "@/components/stories/Stories";
-import { media } from "@/resources/media";
 import Gallery from "@/components/gallery/Gallery";
-
-const items = [
-    { id: 1, title: "Курси",       thumbnail: media.thumbnail_main.src },
-    { id: 2, title: "Авто",        thumbnail: media.thumbnail_main.src },
-    { id: 3, title: "Інструктори", thumbnail: media.thumbnail_main.src },
-    { id: 4, title: "Учні",        thumbnail: media.thumbnail_main.src },
-];
+import FAQ from "@/components/faq/FAQ";
+import Instructors from "@/components/instructors/Instructors";
+import Reviews from "@/components/reviews/Reviews";
+import Benefits from "@/components/benefits/Benefits";
+import Services from "@/components/services/Services";
+import AboutUs from "@/components/about-us/AboutUs";
 
 const Home = () => {
     return (
         <>
-            <Hero />
-            <Stories title="Історії" items={items} itemVariant="small" />
-            <Gallery/>
+                <Hero />
+                <Gallery />
+                <AboutUs />
+                <Services />
+                <Benefits />
+                <Reviews />
+                <Instructors />
+                <FAQ />
         </>
     );
 };

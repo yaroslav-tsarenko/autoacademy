@@ -5,6 +5,15 @@
   justify-content: space-evenly;
   width: 100%;
   padding: var(--30px) 0;
+
+  @media screen and (max-width: 1028px) {
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .description {
@@ -13,6 +22,10 @@
   max-width: 650px;
   gap: 20px;
   width: 100%;
+
+  @media screen and (max-width: 1028px) {
+    max-width: fit-content;
+  }
 }
 
 .descriptionHeader {
@@ -20,6 +33,31 @@
   align-items: center;
   gap: 30px;
   justify-content: space-between;
+
+
+  h1{
+    font-size: var(--30px);
+    color: var(--black);
+    font-weight: 750;
+
+    @media screen and (max-width: 1028px) {
+      font-size: var(--20px);
+      color: var(--black);
+    }
+  }
+
+  p{
+    font-size: var(--20px);
+    color: var(--black);
+    font-weight: 750;
+  }
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
 }
 
 .buttons {
@@ -37,6 +75,11 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 10px;
+
+    @media screen and (max-width: 1028px) {
+      font-size: 1rem;
+      font-weight: 700;
+    }
   }
 
   .subtitle {
@@ -68,16 +111,22 @@
 
 .metricItem {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   width: fit-content;
   font-weight: 300;
   font-size: var(--20px);
   color: var(--light-grey);
 
+  @media screen and (max-width: 1028px) {
+    font-size: var(--10px);
+  }
 
   p{
     font-size: var(--20px);
     color: var(--black);
     font-weight: 750;
   }
+
 }

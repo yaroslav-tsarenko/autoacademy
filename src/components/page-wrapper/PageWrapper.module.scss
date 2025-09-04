@@ -1,8 +1,12 @@
 .wrapper{
   display: flex;
-  gap: 15px;
+  gap: 65px;
   flex-direction: column;
   margin: 0 auto;
   max-width: 1440px;
-  padding: 0 ;
+
+  @media screen and (max-width: 1028px) {
+    padding: 0 15px;
+    gap: 45px;
+  }
 }

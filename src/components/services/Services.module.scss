@@ -1,0 +1,116 @@
+.container {
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 40px 20px;
+  gap: 60px;
+}
+
+.title {
+  font-size: var(--64px);
+  font-weight: 700;
+  text-align: center;
+  color: #222;
+
+  @media screen and (max-width: 1028px) {
+    font-size: var(--34px);
+  }
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  width: 320px;
+  min-height: 340px;
+  padding: 32px 22px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+}
+
+.popular {
+  border: 2px solid var(--yellow, #FFD600);
+}
+
+.popularLabel {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--yellow, #FFD600);
+  color: #222;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 4px 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.cardTitle {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--yellow, #FFD600);
+  margin-bottom: 18px;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 22px;
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+}
+
+.features li {
+  margin-bottom: 8px;
+  padding-left: 18px;
+  position: relative;
+}
+
+.features li:before {
+  content: '✔';
+  color: var(--yellow, #FFD600);
+  position: absolute;
+  left: 0;
+  font-size: 1.1em;
+}
+
+.button {
+  background: var(--yellow, #FFD600);
+  color: #222;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 32px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover {
+  background: #ffe066;
+}

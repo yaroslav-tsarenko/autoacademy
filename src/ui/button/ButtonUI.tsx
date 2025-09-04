@@ -7,6 +7,7 @@ import { styled } from "@mui/system";
 interface ButtonUIProps {
     children: React.ReactNode;
     color: "primary" | "secondary" | "tertiary";
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const palette = {
@@ -28,7 +29,7 @@ const palette = {
         200: "#99CCFF",
         300: "#66B2FF",
         400: "#3399FF",
-        500: "#007FFF", // main
+        500: "#007FFF",
         600: "#0072E5",
         700: "#0066CC",
     },
@@ -151,14 +152,14 @@ const TertiaryButton = styled(BaseButton)(
 `
 );
 
-const ButtonUI: React.FC<ButtonUIProps> = ({ children, color }) => {
+const ButtonUI: React.FC<ButtonUIProps> = ({ children, color, onClick }) => {
     if (color === "primary") {
-        return <PrimaryButton>{children}</PrimaryButton>;
+        return <PrimaryButton onClick={onClick}>{children}</PrimaryButton>;
     }
     if (color === "secondary") {
-        return <SecondaryButton>{children}</SecondaryButton>;
+        return <SecondaryButton onClick={onClick}>{children}</SecondaryButton>;
     }
-    return <TertiaryButton>{children}</TertiaryButton>;
+    return <TertiaryButton onClick={onClick}>{children}</TertiaryButton>;
 };
 
 export default ButtonUI;

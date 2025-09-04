@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         title: "Автоакадемія – сучасна автошкола в Україні",
         description:
             "Легке та якісне навчання водінню. Досвідчені інструктори, доступні курси, підготовка до іспитів. Автоакадемія – твій шлях до впевненого водіння.",
-        url: "https://avtoakademia.ua",
+        url: "https://autoacademy.vercel.app",
         siteName: "Автоакадемія",
         images: [
             {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
         apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
-    metadataBase: new URL("https://avtoakademia.ua"),
+    metadataBase: new URL("https://autoacademy.vercel.app"),
     robots: {
         index: true,
         follow: true,
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
         },
     },
     alternates: {
-        canonical: "https://avtoakademia.ua",
+        canonical: "https://autoacademy.vercel.app",
     },
 };
 

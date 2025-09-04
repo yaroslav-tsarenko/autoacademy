@@ -1,0 +1,25 @@
+.reviewsContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 60px;
+
+}
+
+.title {
+  font-size: var(--64px);
+  font-weight: 700;
+  text-align: center;
+  color: var(--black);
+
+  @media screen and (max-width: 1028px) {
+    font-size: var(--34px);
+  }
+}
+
+.list{
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

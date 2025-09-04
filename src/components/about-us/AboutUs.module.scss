@@ -1,0 +1,100 @@
+.container {
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+  gap: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: var(--64px);
+  font-weight: 700;
+  color: var(--black, #222);
+
+
+  @media screen and (max-width: 1028px) {
+    font-size: var(--34px);
+  }
+}
+
+.description {
+  font-size: 1.15rem;
+  color: var(--light-grey);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.slideImage {
+  display: flex;
+  width: 100%;
+  height: auto;
+  max-height: 650px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.slider {
+  min-height: 160px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.slide {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+  border-radius: 16px;
+}
+
+.active {
+  opacity: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.slideTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--yellow, #FFD600);
+}
+
+.slideDesc {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(128, 128, 128, 0.18);
+  width: fit-content;
+  padding: 10px;
+  border-radius: 55px;
+  margin: 0 auto;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #eee;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.activeDot {
+  background: var(--yellow, #FFD600);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}

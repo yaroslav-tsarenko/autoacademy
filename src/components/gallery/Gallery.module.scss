@@ -8,12 +8,16 @@
   align-items: center;
   justify-content: center;
   align-content: center;
+
+  @media screen and (max-width: 1028px) {
+    padding: 0;
+  }
 }
 
 .photosGrid {
   display: flex;
   align-items: stretch;
-  max-width: 1000px;
+  max-width: 1400px;
   align-content: center;
   justify-content: center;
   margin: 0 auto;
@@ -29,6 +33,12 @@
   height: 415px;
   border-radius: 1px;
   border: 1px solid rgba(99, 99, 99, 0.13);
+
+
+  @media screen and (max-width: 1028px) {
+    width: 100px;
+    height: 100px;
+  }
 
 }
 

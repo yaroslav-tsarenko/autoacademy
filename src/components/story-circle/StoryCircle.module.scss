@@ -1,6 +1,6 @@
 .storyCircle {
   border-radius: 50%;
-  padding: 3px;
+  padding: 6px;
   background: conic-gradient(
                   from 180deg,
                   #feda75,
@@ -13,6 +13,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-items: center;
+  align-content: center;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -30,7 +32,8 @@
 }
 
 .storyImage {
-  border-radius: 50%;
-  border: 4px solid #fff; /* inner white border */
+  border-radius: 555px;
+  border: none;
   object-fit: cover;
+  background: transparent;
 }

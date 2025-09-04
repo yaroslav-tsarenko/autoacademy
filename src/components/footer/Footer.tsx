@@ -9,7 +9,6 @@ const Footer = () => {
     return (
         <footer className={styles.footerWrapper}>
             <div className={styles.footerInner}>
-                {/* Logo + Description */}
                 <div className={styles.footerBrand}>
                     <Image src={media.logo_white} alt="logo" width={180} height={50} />
                     <p>
