@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { Fade } from "react-awesome-reveal";
-
+import {Fade} from "react-awesome-reveal";
 import Hero from "@/components/hero/Hero";
 import Stories from "@/components/stories/Stories";
 import Gallery from "@/components/gallery/Gallery";
@@ -16,14 +15,15 @@ import AboutUs from "@/components/about-us/AboutUs";
 const Home = () => {
     return (
         <>
-                <Hero />
-                <Gallery />
-                <AboutUs />
-                <Services />
-                <Benefits />
-                <Reviews />
-                <Instructors />
-                <FAQ />
+            <Hero/>
+            <Stories />
+            <Gallery/>
+            <AboutUs/>
+            <Services/>
+            <Benefits/>
+            <Reviews/>
+            <Instructors/>
+            <FAQ/>
         </>
     );
 };

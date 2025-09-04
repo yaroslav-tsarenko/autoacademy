@@ -7,7 +7,7 @@ const reviewsData = [
     {
         fullName: 'Іван Петренко',
         avatar: media.photo_1,
-        photo: media.photo_1,
+        photo: media.review_1,
         rating: 4.8,
         reviews: '12',
         ago: '2 дні тому',
@@ -17,7 +17,7 @@ const reviewsData = [
     {
         fullName: 'Олена Коваль',
         avatar: media.photo_1,
-        photo: media.photo_1,
+        photo: media.review_2,
         rating: 5.0,
         reviews: '8',
         ago: '1 тиждень тому',
@@ -27,7 +27,7 @@ const reviewsData = [
     {
         fullName: 'Сергій Мельник',
         avatar: media.photo_1,
-        photo: media.photo_1,
+        photo: media.review_3,
         rating: 4.7,
         reviews: '5',
         ago: '3 тижні тому',

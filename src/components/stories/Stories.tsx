@@ -15,7 +15,7 @@ export type StoryItem = {
 };
 
 interface StoriesProps {
-    items: StoryItem[];
+    items?: StoryItem[];
     itemVariant?: "small" | "big";
     title?: string;
 }
