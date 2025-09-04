@@ -5,6 +5,10 @@
   gap: 60px;
   margin: 0 auto;
   padding: 40px 20px;
+
+  @media screen and (max-width: 1028px) {
+    gap: 25px;
+  }
 }
 
 .title {

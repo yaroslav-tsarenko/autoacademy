@@ -12,12 +12,12 @@ interface StoryCircleProps {
 }
 
 const useResponsiveSize = (variant: "big" | "small") => {
-    const [size, setSize] = useState(variant === "big" ? 350 : 100);
+    const [size, setSize] = useState(variant === "big" ? 350 : 170);
 
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 1028) {
-                setSize(variant === "big" ? 130 : 100);
+                setSize(variant === "big" ? 170 : 100);
             } else {
                 setSize(variant === "big" ? 350 : 100);
             }

@@ -4,6 +4,9 @@
   flex-direction: column;
   gap: 60px;
 
+  @media screen and (max-width: 1028px) {
+    gap: 25px;
+  }
 }
 
 .title {

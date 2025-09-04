@@ -8,6 +8,7 @@
 
   @media screen and (max-width: 1028px) {
     flex-direction: column;
+      gap: 25px;
   }
 }
 
@@ -22,7 +23,6 @@
   @media screen and (max-width: 1028px) {
     font-size: var(--34px);
     text-align: center;
-    margin-bottom: 50px;
   }
 }
 

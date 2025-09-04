@@ -52,7 +52,6 @@ const Header = () => {
                         <FiMenu size={32} />
                     </IconButton>
                 </div>
-
             </header>
             <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
                 <div className={styles.dialogContent}>

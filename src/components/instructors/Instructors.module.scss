@@ -4,6 +4,10 @@
   flex-direction: column;
   gap: 60px;
   margin: 0 auto;
+
+  @media screen and (max-width: 1028px) {
+    gap: 25px;
+  }
 }
 
 .title {
@@ -36,6 +40,10 @@
   margin: 0 auto;
   width: fit-content;
   gap: 80px;
+
+  @media screen and (max-width: 1028px) {
+    gap: 25px;
+  }
 }
 
 .visible {
@@ -50,6 +58,14 @@
   height: 700px;
   width: 100%;
   border-radius: 16px;
+
+
+  @media screen and (max-width: 1028px) {
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    object-fit: cover;
+  }
 }
 
 .info {
@@ -63,11 +79,19 @@
   h3 {
     display: flex;
     font-size: var(--45px);
+
+    @media screen and (max-width: 1028px) {
+      font-size: var(--30px);
+    }
   }
 
   p {
     display: flex;
     font-size: var(--20px);
+
+    @media screen and (max-width: 1028px) {
+      font-size: var(--15px);
+    }
   }
 }
 
@@ -75,7 +99,10 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 8px;
+  display: flex;
   color: #333;
+
+
 }
 
 .block {

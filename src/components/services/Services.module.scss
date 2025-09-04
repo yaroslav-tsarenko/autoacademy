@@ -5,6 +5,10 @@
   flex-direction: column;
   padding: 40px 20px;
   gap: 60px;
+
+  @media screen and (max-width: 1028px) {
+    gap: 25px;
+  }
 }
 
 .title {
@@ -28,7 +32,7 @@
 .card {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   width: 320px;
   min-height: 340px;
   padding: 32px 22px 28px 22px;
@@ -41,7 +45,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
 }
 
 .popular {
@@ -59,7 +63,7 @@
   font-size: 1rem;
   padding: 4px 18px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
 }
 
 .cardTitle {
@@ -82,12 +86,17 @@
   margin-bottom: 22px;
   font-size: 1rem;
   color: #555;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   text-align: left;
 }
 
 .features li {
-  margin-bottom: 8px;
-  padding-left: 18px;
+  padding-left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
   position: relative;
 }
 
@@ -96,7 +105,7 @@
   color: var(--yellow, #FFD600);
   position: absolute;
   left: 0;
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 
 .button {
