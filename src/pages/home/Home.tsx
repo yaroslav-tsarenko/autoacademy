@@ -16,7 +16,7 @@ const Home = () => {
     return (
         <>
             <Hero/>
-            <Stories />
+            <Stories/>
             <Gallery/>
             <AboutUs/>
             <Services/>

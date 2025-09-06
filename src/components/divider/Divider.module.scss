@@ -1,0 +1,18 @@
+.divider{
+  display: flex;
+  width: 100%;
+  gap: 5px;
+  flex-direction: column;
+
+  h5{
+    font-size: var(--25px);
+    font-weight: 600;
+
+  }
+
+  p{
+    font-size: var(--15px);
+    font-weight: 600;
+    color: var(--light-grey);
+  }
+}

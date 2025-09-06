@@ -22,6 +22,34 @@
   height: 100%;
 }
 
+.progressBarContainer {
+  display: flex;
+  gap: 4px;
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  max-width: 90vw;
+  z-index: 10;
+}
+
+.progressBar {
+  height: 4px;
+  border-radius: 2px;
+  background: #888;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+
+.progressFill {
+  background: #fff;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.2s linear;
+}
+
 .track {
   display: grid;
   grid-auto-flow: column;

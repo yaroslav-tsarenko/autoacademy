@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import PageWrapper from "@/components/page-wrapper/PageWrapper";
+import {AlertProvider} from "@/context/AlertContext";
+import {ContentProvider} from "@/context/ContentContext";
 
 export const metadata: Metadata = {
     title: "Автоакадемія – автошкола в Україні | Навчання водінню легко",
@@ -31,7 +33,7 @@ export const metadata: Metadata = {
         title: "Автоакадемія – сучасна автошкола в Україні",
         description:
             "Легке та якісне навчання водінню. Досвідчені інструктори, доступні курси, підготовка до іспитів. Автоакадемія – твій шлях до впевненого водіння.",
-        url: "https://autoacademy.vercel.app",
+        url: "https://www.avtoacademy.com",
         siteName: "Автоакадемія",
         images: [
             {
@@ -57,7 +59,7 @@ export const metadata: Metadata = {
         apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
-    metadataBase: new URL("https://autoacademy.vercel.app"),
+    metadataBase: new URL("https://www.avtoacademy.com"),
     robots: {
         index: true,
         follow: true,
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
         },
     },
     alternates: {
-        canonical: "https://autoacademy.vercel.app",
+        canonical: "https://www.avtoacademy.com",
     },
 };
 
@@ -92,9 +94,13 @@ export default function RootLayout({
             />
         </head>
         <body>
-        <Header />
-        <PageWrapper>{children}</PageWrapper>
-        <Footer />
+        <AlertProvider>
+            <ContentProvider>
+                <Header />
+                <PageWrapper>{children}</PageWrapper>
+                <Footer />
+            </ContentProvider>
+        </AlertProvider>
         </body>
         </html>
     );

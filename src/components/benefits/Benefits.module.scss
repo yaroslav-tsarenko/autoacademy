@@ -44,6 +44,10 @@
   align-items: center;
   text-align: center;
   transition: box-shadow 0.2s;
+
+  @media screen and (max-width: 1028px) {
+    width: 100%;
+  }
 }
 
 .card:hover {

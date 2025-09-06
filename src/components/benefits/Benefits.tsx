@@ -36,7 +36,7 @@ const benefitsData = [
 ];
 
 const Benefits = () => (
-    <div className={styles.container}>
+    <div className={styles.container} id="advantages">
         <h2 className={styles.title}>Переваги Автоакадемії</h2>
         <div className={styles.cards}>
             {benefitsData.map((item, idx) => (

@@ -47,7 +47,7 @@ const Instructors = () => {
     }, []);
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} id="instructors">
             <h2 className={styles.title}>Наші інструктори</h2>
             <div className={styles.cards}>
                 {instructors.map((inst, idx) => (

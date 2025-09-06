@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Services.module.scss';
+import ButtonUI from "@/ui/button/ButtonUI";
 
 const tariffs = [
     {
@@ -43,7 +44,7 @@ const tariffs = [
 ];
 
 const Services = () => (
-    <div className={styles.container}>
+    <div className={styles.container} id="services">
         <h2 className={styles.title}>Ціни та Послуги</h2>
         <div className={styles.cards}>
             {tariffs.map((tariff, idx) => (
@@ -56,7 +57,7 @@ const Services = () => (
                             <li key={i}>{feature}</li>
                         ))}
                     </ul>
-                    <button className={styles.button}>{tariff.button}</button>
+                    <ButtonUI color="secondary">{tariff.button}</ButtonUI>
                 </div>
             ))}
         </div>

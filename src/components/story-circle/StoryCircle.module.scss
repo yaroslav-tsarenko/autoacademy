@@ -18,6 +18,7 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  transition: 0.2s;
 
   &:hover {
     transform: scale(1.01);
@@ -34,7 +35,73 @@
   border-radius: 555px;
   border: none;
   cursor: pointer;
-
   object-fit: cover;
   background: transparent;
+}
+
+.storyDialog {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+
+.progressBarContainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 6px;
+  z-index: 2;
+  gap: 2px;
+  padding: 12px 0 0 0;
+}
+
+.progressBar {
+  position: relative;
+  height: 6px;
+  background: #888;
+  border-radius: 3px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.progressFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #fff;
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+}
+
+.storyContent {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storyMediaWrapper {
+  aspect-ratio: 9 / 16;
+  width: 450px;
+  height: 800px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
