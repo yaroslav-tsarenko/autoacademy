@@ -173,9 +173,16 @@
   background: #fff; // White background
   padding: 24px;
   font-size: 1.1rem;
+  white-space: pre-line;
   font-family: "Roboto", sans-serif;
   border-top: 1px solid #eee;
   min-height: 80px;
+}
+
+/* In your AdminContent.module.scss */
+.hashtag {
+  color: #1976d2;
+  font-weight: bold;
 }
 
 .cardText {

@@ -5,6 +5,7 @@ import Footer from "@/components/footer/Footer";
 import PageWrapper from "@/components/page-wrapper/PageWrapper";
 import {AlertProvider} from "@/context/AlertContext";
 import {ContentProvider} from "@/context/ContentContext";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 export const metadata: Metadata = {
     title: "Автоакадемія – автошкола в Україні | Навчання водінню легко",
@@ -94,13 +95,15 @@ export default function RootLayout({
             />
         </head>
         <body>
-        <AlertProvider>
-            <ContentProvider>
-                <Header />
-                <PageWrapper>{children}</PageWrapper>
-                <Footer />
-            </ContentProvider>
-        </AlertProvider>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID || ""}>
+            <AlertProvider>
+                <ContentProvider>
+                    <Header />
+                    <PageWrapper>{children}</PageWrapper>
+                    <Footer />
+                </ContentProvider>
+            </AlertProvider>
+        </GoogleOAuthProvider>
         </body>
         </html>
     );

@@ -1,22 +1,24 @@
 import StoryCircle from "@/components/story-circle/StoryCircle";
-import { media } from "@/resources/media";
+import {media} from "@/resources/media";
 import styles from "./Hero.module.scss";
-import ButtonUI from "@/ui/button/ButtonUI";
-import React, { useEffect, useRef, useState } from "react";
-import { useContent } from "@/context/ContentContext";
+import React, {useEffect, useRef, useState} from "react";
+import {useContent} from "@/context/ContentContext";
 import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
+import {FaFacebookF, FaInstagram, FaTiktok} from "react-icons/fa";
+import Link from "next/link";
 
 const STORY_DURATION = 5000;
 
 export default function Hero() {
-    const { stories } = useContent();
+    const {stories} = useContent();
     const [open, setOpen] = useState(false);
     const [current, setCurrent] = useState(0);
     const [progress, setProgress] = useState(0);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const { mainSection } = useContent();
 
     // Open dialog
     const handleOpen = () => {
@@ -73,6 +75,10 @@ export default function Hero() {
         else if (x > width / 2 && current < stories.length - 1) setCurrent(current + 1);
     };
 
+    const instUrl = process.env.NEXT_PUBLIC_INSTAGRAM;
+    const facebookUrl = process.env.NEXT_PUBLIC_FACEBOOK;
+    const tiktokUrl = process.env.NEXT_PUBLIC_TIKTOK;
+
     return (
         <div className={styles.wrapper}>
             <StoryCircle
@@ -83,35 +89,46 @@ export default function Hero() {
             <div className={styles.description}>
                 <div className={styles.descriptionHeader}>
                     <h1>avtoacademykhm</h1>
-                    <div className={styles.buttons}>
-                        <ButtonUI color="tertiary">Facebook</ButtonUI>
-                        <ButtonUI color="secondary">Instagram</ButtonUI>
-                        <ButtonUI color="primary">TikTok</ButtonUI>
-                    </div>
+                        <div className={styles.buttons}>
+                            <Link href={facebookUrl ?? "#"} target="_blank" rel="noopener noreferrer">
+                                <IconButton sx={{color: "#1877F3"}}>
+                                    <FaFacebookF size={32}/>
+                                </IconButton>
+                            </Link>
+                            <Link href={instUrl ?? "#"} target="_blank" rel="noopener noreferrer">
+                                <IconButton>
+        <div className={styles.instagramGradient}>
+            <FaInstagram size={32}/>
+        </div>
+                                </IconButton>
+                            </Link>
+                            <Link href={tiktokUrl ?? "#"} target="_blank" rel="noopener noreferrer">
+                                <IconButton sx={{color: "#000"}}>
+                                    <FaTiktok size={32}/>
+                                </IconButton>
+                            </Link>
+                        </div>
                 </div>
                 <div className={styles.metrics}>
-                    <div className={styles.metricItem}>
-                        <p>495</p>
-                        Публікацій
-                    </div>
-                    <div className={styles.metricItem}>
-                        <p>4,091</p>
-                        Підписники
-                    </div>
-                    <div className={styles.metricItem}>
-                        <p>500+</p>
-                        Учнів
+                    <div className={styles.metrics}>
+                        <div className={styles.metricItem}>
+                            <p>{mainSection?.publications ?? 0}</p>
+                            Публікацій
+                        </div>
+                        <div className={styles.metricItem}>
+                            <p>{mainSection?.followers ?? 0}</p>
+                            Підписники
+                        </div>
+                        <div className={styles.metricItem}>
+                            <p>{mainSection?.students ?? "0"}</p>
+                            Учнів
+                        </div>
                     </div>
                 </div>
                 <div className={styles.card}>
-                    <h1>Автошкола &quot;Автоакадемія&quot; 🚖 Хмельницький</h1>
-                    <p>Навчаємо від А до Я!</p>
-                    <p>🏁 Початок навчання 19 вересня</p>
-                    <p>🚘 В наявності Toyota Corolla як на екзамені</p>
-                    <p>🚘 МКПП / АКПП</p>
-                    <p>⚙️ Відновлення навичок водіння</p>
-                    <p className={styles.address}>
-                        📍 вул. Подільська, 93/1, м. Хмельницький
+                    <h1>{mainSection?.title || "Автошкола \"Автоакадемія\" 🚖 Хмельницький"}</h1>
+                    <p style={{ whiteSpace: "pre-line" }}>
+                        {mainSection?.description || "Навчаємо від А до Я!"}
                     </p>
                 </div>
             </div>
@@ -119,7 +136,7 @@ export default function Hero() {
                 open={open}
                 onClose={() => setOpen(false)}
                 fullScreen
-                PaperProps={{ style: { background: "#000" } }}
+                PaperProps={{style: {background: "#000"}}}
             >
                 <div className={styles.storyDialog}>
                     {/* Instagram-like progress bar */}
@@ -160,9 +177,9 @@ export default function Hero() {
                     <IconButton
                         onClick={() => setOpen(false)}
                         className={styles.closeBtn}
-                        sx={{ position: "absolute", top: 16, right: 16, color: "#fff", zIndex: 2 }}
+                        sx={{position: "absolute", top: 16, right: 16, color: "#fff", zIndex: 2}}
                     >
-                        <CloseIcon />
+                        <CloseIcon/>
                     </IconButton>
                     <div
                         className={styles.storyContent}
@@ -199,18 +216,18 @@ export default function Hero() {
                                         alt="story"
                                         width={450}
                                         height={800}
-                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                        style={{width: "100%", height: "100%", objectFit: "cover"}}
                                     />
                                 ) : (
                                     <video
                                         src={stories[current].url}
                                         controls
                                         autoPlay
-                                        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 0 }}
+                                        style={{width: "100%", height: "100%", objectFit: "cover", borderRadius: 0}}
                                     />
                                 )
                             ) : (
-                                <div style={{ color: "#fff", textAlign: "center" }}>No media available</div>
+                                <div style={{color: "#fff", textAlign: "center"}}>No media available</div>
                             )}
                         </div>
                     </div>

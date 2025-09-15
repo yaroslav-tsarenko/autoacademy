@@ -36,7 +36,9 @@ export default function Gallery() {
     const videoPosts = posts.filter(post => post.mediaType === "video");
 
     const displayedPosts = tab === 0 ? imagePosts : videoPosts;
-
+    function formatHashtags(text: string) {
+        return text.replace(/(#\w+)/g, '<span style="color:#1976d2;font-weight:bold;">$1</span>');
+    }
     return (
         <section className={styles.wrapper}>
             <Box sx={{ borderBottom: 0, borderColor: "#1a1a1a", mb: 3 }}>
@@ -124,7 +126,8 @@ export default function Gallery() {
                             </div>
                             <div
                                 className={styles.cardText}
-                                dangerouslySetInnerHTML={{ __html: displayedPosts[selectedPostIdx].text }}
+                                style={{ whiteSpace: "pre-line" }}
+                                dangerouslySetInnerHTML={{ __html: formatHashtags(displayedPosts[selectedPostIdx].text) }}
                             />
                         </div>
                     </div>

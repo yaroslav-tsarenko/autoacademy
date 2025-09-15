@@ -7,6 +7,22 @@ export interface Slider {
     images: string[];
 }
 
+export interface MainSection {
+    title: string;
+    description: string;
+    publications: number;
+    followers: number;
+    students: string;
+}
+
+export interface Instructor {
+    _id: string;
+    fullName: string;
+    photo: string;
+    description: string;
+    characteristics: string[];
+}
+
 type Story = {
     url: string;
     type: "image" | "video";
@@ -42,6 +58,11 @@ interface ContentContextType {
     posts: Post[];
     sliderImages: string[];
     reviews: Review[];
+    mainSection: MainSection | null;
+    instructors: Instructor[];
+    refreshInstructors: () => Promise<void>;
+    refreshMainSection: () => Promise<void>;
+    upsertMainSection: (data: MainSection) => Promise<void>;
     refreshReviews: () => Promise<void>;
     refreshSlider: () => Promise<void>;
     refreshPosts: () => Promise<void>;
@@ -63,6 +84,11 @@ const ContentContext = createContext<ContentContextType>({
     posts: [],
     sliderImages: [],
     reviews: [],
+    mainSection: null,
+    instructors: [],
+    refreshInstructors: async () => {},
+    refreshMainSection: async () => {},
+    upsertMainSection: async () => {},
     refreshReviews: async () => {},
     refreshSlider: async () => {},
     refreshPosts: async () => {},
@@ -79,7 +105,30 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [posts, setPosts] = useState<Post[]>([]);
     const [sliderImages, setSliderImages] = useState<string[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
+    const [mainSection, setMainSection] = useState<MainSection | null>(null);
+    const [instructors, setInstructors] = useState<Instructor[]>([]);
 
+    const refreshInstructors = async () => {
+        try {
+            const res = await newRequest.get("/content/instructors/get-all");
+            setInstructors(res.data);
+        } catch {
+            setInstructors([]);
+        }
+    };
+    const refreshMainSection = async () => {
+        try {
+            const res = await newRequest.get("/content/main-section/get");
+            setMainSection(res.data || null);
+        } catch {
+            setMainSection(null);
+        }
+    };
+
+    const upsertMainSection = async (data: MainSection) => {
+        await newRequest.post("/content/main-section/upsert", data);
+        await refreshMainSection();
+    };
     const refreshReviews = async () => {
         try {
             const res = await newRequest.get("/content/reviews/get-all");
@@ -130,7 +179,9 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         refreshActuals();
         refreshPosts();
         refreshSlider();
+        refreshMainSection();
         refreshReviews();
+        refreshInstructors();
     }, []);
 
     return (
@@ -140,10 +191,15 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             refreshStories,
             refreshActuals,
             posts,
+            mainSection,
+            refreshMainSection,
+            upsertMainSection,
             refreshPosts,
             sliderImages,
             refreshSlider,
             reviews,
+            instructors,
+            refreshInstructors,
             refreshReviews }}>
             {children}
         </ContentContext.Provider>

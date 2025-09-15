@@ -1,0 +1,32 @@
+.thanksContainer {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+  position: relative;
+  overflow: hidden;
+}
+
+.thanksMessage {
+  padding: 40px 32px;
+  border-radius: 16px;
+  text-align: center;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.thanksMessage h1 {
+  color: var(--yellow);
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.thanksMessage p {
+  color: #333;
+  font-size: 1.25rem;
+  margin: 0;
+}

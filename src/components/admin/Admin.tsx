@@ -48,7 +48,7 @@ const Admin = () => {
                     gap: 2,
                 }}
             >
-                <Typography level="h3" sx={{mb: 2, textAlign: "center"}}>Адмін Панель</Typography>
+                <Typography sx={{mb: 2, textAlign: "center"}}>Адмін Панель</Typography>
                 <Input
                     type="text"
                     placeholder="Login"

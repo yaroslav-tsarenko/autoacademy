@@ -8,16 +8,11 @@ import Link from "next/link";
 import ButtonUI from "@/ui/button/ButtonUI";
 import IconButton from "@mui/material/IconButton";
 import Drawer from "@mui/material/Drawer";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
 import {FiMenu} from "react-icons/fi";
-import Input from "@mui/joy/Input";
-import Box from "@mui/joy/Box";
-import Typography from "@mui/joy/Typography";
 import {newRequest} from "@/utils/newRequest";
 import {useAlert} from "@/context/AlertContext";
-import {Textarea} from "@mui/joy";
+
+import BookingDialog from "@/components/booking-dialog/BookingDialog";
 
 const PHONE_NUMBER = "+380971234567";
 
@@ -38,6 +33,10 @@ const Header = () => {
         setForm(prev => ({...prev, [field]: value}));
     };
 
+    const handleNavigateToThanksPage = () => {
+        window.location.href = "/thanks-page";
+    };
+
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         e.preventDefault();
         const el = document.getElementById(id);
@@ -56,6 +55,7 @@ const Header = () => {
             });
             showAlert("Заявка успішно надіслана!", "Дякуємо!", "success");
             setDialogOpen(false);
+            handleNavigateToThanksPage();
         } catch (err) {
             showAlert("Не вдалося надіслати заявку. Спробуйте ще раз.", "Помилка", "error");
         }
@@ -124,35 +124,10 @@ const Header = () => {
                     </div>
                 </div>
             </Drawer>
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-                <DialogTitle>Записатись</DialogTitle>
-                <DialogContent>
-                    <Box sx={{display: "flex", flexDirection: "column", gap: 2, minWidth: 300}}>
-                        <Input
-                            placeholder="Повне ім'я"
-                            value={form.name}
-                            sx={{fontWeight: "500"}}
-                            onChange={e => handleFormChange("name", e.target.value)}
-                        />
-                        <Input
-                            placeholder="Номер телефону"
-                            value={form.phone}
-                            sx={{fontWeight: "500"}}
-                            onChange={e => handleFormChange("phone", e.target.value)}
-                        />
-                        <Textarea
-                            placeholder="Коментар"
-                            value={form.comment}
-                            sx={{ fontWeight: "500" }}
-                            onChange={e => handleFormChange("comment", e.target.value)}
-                            minRows={2}
-                        />
-                        <ButtonUI color="primary" onClick={handleSubmit}>
-                            Відправити
-                        </ButtonUI>
-                    </Box>
-                </DialogContent>
-            </Dialog>
+            <BookingDialog
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+                />
         </>
     );
 };

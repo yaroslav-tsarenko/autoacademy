@@ -3,11 +3,14 @@
 import * as React from "react";
 import { Button as BaseButton, buttonClasses } from "@mui/base";
 import { styled } from "@mui/system";
+import { CircularProgress } from "@mui/joy";
 
 interface ButtonUIProps {
     children: React.ReactNode;
-    color: "primary" | "secondary" | "tertiary";
+    color: "primary" | "secondary" | "tertiary" | "error";
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    loading?: boolean;
+    disabled?: boolean;
 }
 
 const palette = {
@@ -32,6 +35,12 @@ const palette = {
         500: "#007FFF",
         600: "#0072E5",
         700: "#0066CC",
+    },
+    error: {
+        400: "#ff4d4f",
+        500: "#d32f2f",
+        600: "#b71c1c",
+        700: "#7f1d1d",
     },
     grey: {
         200: "#DAE2ED",
@@ -152,14 +161,66 @@ const TertiaryButton = styled(BaseButton)(
 `
 );
 
-const ButtonUI: React.FC<ButtonUIProps> = ({ children, color, onClick }) => {
+const ErrorButton = styled(BaseButton)(
+    ({ theme }) => `
+  ${baseStyles}
+  background-color: ${palette.error[500]};
+  color: #fff;
+  border: 1px solid ${palette.error[500]};
+  box-shadow: 0 2px 1px ${
+        theme.palette.mode === "dark"
+            ? "rgba(0,0,0,0.5)"
+            : "rgba(45,45,60,0.2)"
+    }, inset 0 1.5px 1px ${palette.error[400]}, inset 0 -2px 1px ${palette.error[600]};
+
+  &:hover {
+    background-color: ${palette.error[600]};
+  }
+
+  &.${buttonClasses.active} {
+    background-color: ${palette.error[700]};
+    box-shadow: none;
+    transform: scale(0.99);
+  }
+
+  &.${buttonClasses.disabled} {
+    background-color: ${palette.grey[200]};
+    color: ${palette.grey[700]};
+    border: 0;
+    cursor: default;
+    box-shadow: none;
+  }
+`
+);
+
+const ButtonUI: React.FC<ButtonUIProps> = ({
+                                               children,
+                                               color,
+                                               onClick,
+                                               loading = false,
+                                               disabled = false,
+                                           }) => {
+    const content = loading ? (
+        <CircularProgress size="sm" color="neutral" />
+    ) : (
+        children
+    );
+
+    const buttonProps = {
+        onClick,
+        disabled: disabled || loading,
+    };
+
     if (color === "primary") {
-        return <PrimaryButton onClick={onClick}>{children}</PrimaryButton>;
+        return <PrimaryButton {...buttonProps}>{content}</PrimaryButton>;
     }
     if (color === "secondary") {
-        return <SecondaryButton onClick={onClick}>{children}</SecondaryButton>;
+        return <SecondaryButton {...buttonProps}>{content}</SecondaryButton>;
     }
-    return <TertiaryButton onClick={onClick}>{children}</TertiaryButton>;
+    if (color === "error") {
+        return <ErrorButton {...buttonProps}>{content}</ErrorButton>;
+    }
+    return <TertiaryButton {...buttonProps}>{content}</TertiaryButton>;
 };
 
 export default ButtonUI;

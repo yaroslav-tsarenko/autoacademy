@@ -12,6 +12,8 @@ const navLinks = [
     { label: "Відгуки", id: "reviews" },
     { label: "Інструктори", id: "instructors" },
     { label: "Поширені запитання", id: "faq" },
+    { label: "Політика користування", link: "/terms-and-conditions" },
+    { label: "Користувацька угода", link: "/user-agreement" },
 ];
 
 const Footer = () => {
@@ -37,13 +39,19 @@ const Footer = () => {
                     <h4>Навігація</h4>
                     <ul>
                         {navLinks.map(link => (
-                            <li key={link.id}>
-                                <a
-                                    href={`#${link.id}`}
-                                    onClick={e => handleScroll(e, link.id)}
-                                >
-                                    {link.label}
-                                </a>
+                            <li key={link.label}>
+                                {link.link ? (
+                                    <a href={link.link}>
+                                        {link.label}
+                                    </a>
+                                ) : (
+                                    <a
+                                        href={`#${link.id}`}
+                                        onClick={e => handleScroll(e, link.id!)}
+                                    >
+                                        {link.label}
+                                    </a>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -51,8 +59,8 @@ const Footer = () => {
                 <div className={styles.footerContacts}>
                     <h4>Контакти</h4>
                     <ul>
-                        <li><a href="tel:+380971234567">+38 (097) 123 45 67</a></li>
-                        <li><a href="mailto:info@avtoakademia.ua">info@avtoakademia.ua</a></li>
+                        <li><a href="tel:+380971234567">{process.env.NEXT_PUBLIC_PHONE}</a></li>
+                        <li><a href="mailto:info@avtoakademia.ua">avtoacademy@gmail.com</a></li>
                     </ul>
                 </div>
                 <div className={styles.footerAddress}>

@@ -112,7 +112,14 @@
 
 .buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+}
+
+.instagramGradient {
+  background: linear-gradient(45deg, #fdc468 0%, #df4996 50%, #3b5998 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 .card {

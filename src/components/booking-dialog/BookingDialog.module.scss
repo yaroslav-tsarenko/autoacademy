@@ -1,0 +1,43 @@
+.actions {
+  display: flex;
+  width: 100%;
+  padding: 10px 30px 20px 30px;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  justify-items: center;
+  gap: 10px;
+
+  p{
+    font-size: 14px;
+    color: #a1a1a1;
+    font-weight: 300;
+    text-align: center;
+  }
+}
+
+.times {
+  display: flex;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
+
+
+.separator {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  gap: 10px;
+  font-weight: 300;
+  color: #a1a1a1;
+
+  hr{
+    width: 98%;
+    height: 1px;
+    border: 0.5px solid #a1a1a1;
+  }
+}
