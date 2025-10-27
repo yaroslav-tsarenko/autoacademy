@@ -23,7 +23,8 @@ import PostsFunctionality from "@/components/admin-content/PostsFunctionality";
 import SliderFunctionality from "@/components/admin-content/SliderFunctionallity";
 import AddReviewFunctionallity from "@/components/admin-content/AddReviewFunctionallity";
 import AddInstructorFunctionality from "@/components/admin-content/AddInstructorFunctionallity";
-import { Area } from "react-easy-crop";
+import {Area} from "react-easy-crop";
+import StoriesFunctionallity from "@/components/admin-content/StoriesFunctionallity";
 
 type DialogType =
     | "story"
@@ -557,7 +558,7 @@ const AdminContent = () => {
         const actual = actuals.find(a => a._id === selectedActualId);
         return (
             <Box className={styles.content}>
-                <Typography  sx={{mb: 2}}>
+                <Typography sx={{mb: 2}}>
                     Додати контент до: {actual?.title}
                 </Typography>
                 <input
@@ -860,36 +861,10 @@ const AdminContent = () => {
                         Змінити
                     </ButtonUI>
                 </div>
-                <div className={styles.functionality}>
-                    <Divider title="Додати сторіс на сайт" description="Блок для сторісів на головний екран"/>
-                    <ButtonUI color="tertiary" onClick={() => handleOpen("story")}>
-                        Додати сторіс
-                    </ButtonUI>
-                    <div className={styles.mediaPreviewGrid}>
-                        {stories.map(story => (
-                            <div key={story._id} className={styles.mediaPreviewItem}>
-                                {story.type === "image" ? (
-                                    <Image
-                                        src={story.url}
-                                        alt="story"
-                                        width={80}
-                                        height={80}
-                                        style={{objectFit: "cover", borderRadius: 8}}/>
-                                ) : (
-                                    <video
-                                        src={story.url}
-                                        controls
-                                        className={styles.mediaPreviewVideo}
-                                        style={{objectFit: "cover", borderRadius: 8, width: 80, height: 80}}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <StoriesFunctionallity/>
                 <ActualsFunctionality/>
                 <PostsFunctionality/>
-                <SliderFunctionality />
+                <SliderFunctionality/>
                 <AddReviewFunctionallity/>
                 <AddInstructorFunctionality/>
             </div>

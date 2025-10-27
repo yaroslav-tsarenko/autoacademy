@@ -60,7 +60,7 @@ const Footer = () => {
                     <h4>Контакти</h4>
                     <ul>
                         <li><a href="tel:+380971234567">{process.env.NEXT_PUBLIC_PHONE}</a></li>
-                        <li><a href="mailto:info@avtoakademia.ua">avtoacademy@gmail.com</a></li>
+                        <li><a href="mailto:autoacademy.khm@gmail.com">autoacademy.khm@gmail.com</a></li>
                     </ul>
                 </div>
                 <div className={styles.footerAddress}>

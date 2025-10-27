@@ -36,6 +36,8 @@ const StoryCircle: React.FC<StoryCircleProps> = ({
                                                  }) => {
     const size = useResponsiveSize(variant);
 
+    const imageStyles = variant === "big" ? styles.storyImageBig : styles.storyImageSmall;
+
     return (
         <div
             className={styles.storyCircle}
@@ -47,7 +49,7 @@ const StoryCircle: React.FC<StoryCircleProps> = ({
                 alt={alt}
                 width={size - 5}
                 height={size - 11}
-                className={styles.storyImage}
+                className={imageStyles}
             />
         </div>
     );

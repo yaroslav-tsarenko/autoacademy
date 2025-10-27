@@ -6,6 +6,7 @@ import PageWrapper from "@/components/page-wrapper/PageWrapper";
 import {AlertProvider} from "@/context/AlertContext";
 import {ContentProvider} from "@/context/ContentContext";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import Script from "next/script";
 
 export const metadata: Metadata = {
     title: "Автоакадемія – автошкола в Україні | Навчання водінню легко",
@@ -92,6 +93,24 @@ export default function RootLayout({
             <link
                 href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
                 rel="stylesheet"
+            />
+
+            <Script
+                src="https://www.googletagmanager.com/gtag/js?id=G-RSDWH1SZBD"
+                strategy="afterInteractive"
+                async
+            />
+            <Script
+                id="gtag-init"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RSDWH1SZBD');
+                        `,
+                }}
             />
         </head>
         <body>
