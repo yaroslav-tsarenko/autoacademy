@@ -25,6 +25,8 @@ import AddReviewFunctionallity from "@/components/admin-content/AddReviewFunctio
 import AddInstructorFunctionality from "@/components/admin-content/AddInstructorFunctionallity";
 import {Area} from "react-easy-crop";
 import StoriesFunctionallity from "@/components/admin-content/StoriesFunctionallity";
+import AddFAQFunctionallity from "@/components/admin-content/AddFAQFunctionallity";
+import FeaturesFunctionallity from "@/components/admin-content/FeaturesFunctionallity";
 
 type DialogType =
     | "story"
@@ -867,6 +869,8 @@ const AdminContent = () => {
                 <SliderFunctionality/>
                 <AddReviewFunctionallity/>
                 <AddInstructorFunctionality/>
+                <AddFAQFunctionallity/>
+                <FeaturesFunctionallity/>
             </div>
             <Dialog
                 open={open}

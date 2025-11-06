@@ -2,31 +2,10 @@
 
 import React, { useState } from 'react';
 import styles from './FAQ.module.scss';
-
-const faqData = [
-    {
-        question: 'Як записатися на курси водіння?',
-        answer: 'Ви можете записатися онлайн через наш сайт або особисто в офісі автошколи.',
-    },
-    {
-        question: 'Які документи потрібні для реєстрації?',
-        answer: 'Для реєстрації необхідно мати паспорт, ідентифікаційний код та медичну довідку.',
-    },
-    {
-        question: 'Скільки триває навчання?',
-        answer: 'Стандартний курс триває 2 місяці та включає теоретичні й практичні заняття.',
-    },
-    {
-        question: 'Чи є можливість навчатися у вихідні?',
-        answer: 'Так, ми пропонуємо гнучкий графік, включаючи заняття у вихідні та вечірній час.',
-    },
-    {
-        question: 'Чи надаєте ви автомобіль для складання іспиту?',
-        answer: 'Так, автошкола надає автомобіль для навчання та складання офіційного іспиту.',
-    },
-];
+import { useContent } from "@/context/ContentContext";
 
 const FAQ = () => {
+    const { faqs = [] } = useContent();
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const toggleFAQ = (index: number) => {
@@ -37,8 +16,8 @@ const FAQ = () => {
         <div className={styles.faqContainer} id="faq">
             <h2 className={styles.title}>FAQs</h2>
             <ul className={styles.faqList}>
-                {faqData.map((item, idx) => (
-                    <li key={idx} className={styles.faqItem}>
+                {(faqs || []).map((item, idx) => (
+                    <li key={item._id ?? idx} className={styles.faqItem}>
                         <button
                             className={styles.question}
                             onClick={() => toggleFAQ(idx)}

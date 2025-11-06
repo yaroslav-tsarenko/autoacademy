@@ -30,6 +30,15 @@ type Story = {
     _id?: string;
 };
 
+export type Tariff = {
+    _id: string;
+    title: string;
+    price: string;
+    features?: string[];
+    buttonText?: string;
+    popular?: boolean;
+};
+
 export interface Review {
     _id: string;
     fullName: string;
@@ -56,6 +65,7 @@ interface ContentContextType {
     stories: Story[];
     actuals: Actual[];
     posts: Post[];
+    faqs: Faq[];
     sliderImages: string[];
     reviews: Review[];
     mainSection: MainSection | null;
@@ -68,6 +78,13 @@ interface ContentContextType {
     refreshPosts: () => Promise<void>;
     refreshStories: () => Promise<void>;
     refreshActuals: () => Promise<void>;
+    refreshFaqs: () => Promise<void>;
+    tariffs: Tariff[];
+    refreshTariffs: () => Promise<void>;
+    createTariff: (payload: Partial<Tariff>) => Promise<void>;
+    updateTariff: (id: string, payload: Partial<Tariff>) => Promise<void>;
+    deleteTariff: (id: string) => Promise<void>;
+    contentLoaded: boolean;
 }
 
 export interface Post {
@@ -78,14 +95,24 @@ export interface Post {
     createdAt: string;
 }
 
+export interface Faq {
+    _id: string;
+    question: string;
+    answer: string;
+    createdAt: string;
+}
+
 const ContentContext = createContext<ContentContextType>({
     stories: [],
     actuals: [],
     posts: [],
+    faqs: [],
     sliderImages: [],
     reviews: [],
     mainSection: null,
     instructors: [],
+    tariffs: [],
+    contentLoaded: false,
     refreshInstructors: async () => {},
     refreshMainSection: async () => {},
     upsertMainSection: async () => {},
@@ -94,7 +121,11 @@ const ContentContext = createContext<ContentContextType>({
     refreshPosts: async () => {},
     refreshStories: async () => {},
     refreshActuals: async () => {},
-
+    refreshFaqs: async () => {},
+    refreshTariffs: async () => {},
+    createTariff: async () => {},
+    updateTariff: async () => {},
+    deleteTariff: async () => {},
 });
 
 export const useContent = () => useContext(ContentContext);
@@ -107,6 +138,9 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [reviews, setReviews] = useState<Review[]>([]);
     const [mainSection, setMainSection] = useState<MainSection | null>(null);
     const [instructors, setInstructors] = useState<Instructor[]>([]);
+    const [faqs, setFaqs] = useState<Faq[]>([])
+    const [tariffs, setTariffs] = useState<Tariff[]>([]);
+    const [contentLoaded, setContentLoaded] = useState(false);
 
     const refreshInstructors = async () => {
         try {
@@ -135,6 +169,15 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             setReviews(res.data);
         } catch {
             setReviews([]);
+        }
+    };
+
+    const refreshFaqs = async () => {
+        try {
+            const res = await newRequest.get("/content/faqs/get-all");
+            setFaqs(res.data || []);
+        } catch {
+            setFaqs([]);
         }
     };
 
@@ -174,14 +217,51 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
     };
 
+    const refreshTariffs = async () => {
+        try {
+            const res = await newRequest.get("/content/tariffs");
+            setTariffs(res.data || []);
+        } catch (err) {
+            console.error("Failed to fetch tariffs", err);
+        }
+    };
+
+    const createTariff = async (payload: Partial<Tariff>) => {
+        await newRequest.post("/content/tariffs/create", payload);
+    };
+
+    const updateTariff = async (id: string, payload: Partial<Tariff>) => {
+        await newRequest.put(`/content/tariffs/${id}`, payload);
+    };
+
+    const deleteTariff = async (id: string) => {
+        await newRequest.delete(`/content/tariffs/${id}`);
+    };
+
+
+    const refreshAllContent = async () => {
+        setContentLoaded(false);
+        try {
+            await Promise.all([
+                refreshStories(),
+                refreshActuals(),
+                refreshPosts(),
+                refreshSlider(),
+                refreshMainSection(),
+                refreshReviews(),
+                refreshInstructors(),
+                refreshFaqs(),
+                refreshTariffs(),
+            ]);
+        } catch (err) {
+            console.error("Error during refreshAllContent", err);
+        } finally {
+            setContentLoaded(true);
+        }
+    };
+
     useEffect(() => {
-        refreshStories();
-        refreshActuals();
-        refreshPosts();
-        refreshSlider();
-        refreshMainSection();
-        refreshReviews();
-        refreshInstructors();
+        refreshAllContent();
     }, []);
 
     return (
@@ -191,6 +271,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             refreshStories,
             refreshActuals,
             posts,
+            faqs,
             mainSection,
             refreshMainSection,
             upsertMainSection,
@@ -199,7 +280,14 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             refreshSlider,
             reviews,
             instructors,
+            contentLoaded,
+            refreshFaqs,
             refreshInstructors,
+            tariffs,
+            refreshTariffs,
+            createTariff,
+            updateTariff,
+            deleteTariff,
             refreshReviews }}>
             {children}
         </ContentContext.Provider>

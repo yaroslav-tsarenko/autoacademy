@@ -1,3 +1,5 @@
+// typescript
+"use client";
 import React, { useRef, useState } from "react";
 import Divider from "@/components/divider/Divider";
 import ButtonUI from "@/ui/button/ButtonUI";
@@ -9,21 +11,24 @@ import Typography from "@mui/joy/Typography";
 import { Textarea } from "@mui/joy";
 import Cropper, { Area } from "react-easy-crop";
 import Slider from "@mui/material/Slider";
+import Image from "next/image";
 import { getCroppedFile } from "@/utils/getCroppedFile";
 import { useAlert } from "@/context/AlertContext";
 import { useContent, Post } from "@/context/ContentContext";
-import styles from "./AdminContent.module.scss";
-import Image from "next/image";
 import { newRequest } from "@/utils/newRequest";
+import styles from "./AdminContent.module.scss";
+
+const MAX_VIDEO_DURATION = 15; // секунд
+const MAX_FILE_SIZE_MB = 15;
 
 const PostsFunctionality: React.FC = () => {
     const [open, setOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [file, setFile] = useState<File | null>(null);
-    const [originalPreview, setOriginalPreview] = useState<string | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
+    const [type, setType] = useState<"image" | "video" | null>(null);
     const [cropOpen, setCropOpen] = useState(false);
-    const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
     const [croppedFile, setCroppedFile] = useState<File | null>(null);
@@ -35,48 +40,78 @@ const PostsFunctionality: React.FC = () => {
     const { showAlert } = useAlert();
     const { posts, refreshPosts } = useContent();
 
-    // Handle file select
+    /** 🧩 Вибір файлу */
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selected = e.target.files?.[0] || null;
-        if (selected && selected.type.startsWith("image")) {
-            setFile(selected);
-            const url = URL.createObjectURL(selected);
-            setOriginalPreview(url);
-            setPreview(url);
-            setCropOpen(true);
+        const selected = e.target.files?.[0];
+        if (!selected) return;
+
+        const isImage = selected.type.startsWith("image");
+        const isVideo = selected.type.startsWith("video");
+        const sizeMB = selected.size / (1024 * 1024);
+
+        if (sizeMB > MAX_FILE_SIZE_MB) {
+            showAlert("Файл занадто великий (до 15 МБ)", "Помилка", "error");
+            return;
         }
+
+        if (!isImage && !isVideo) {
+            showAlert("Дозволені лише фото або відео", "Помилка", "error");
+            return;
+        }
+
+        setFile(selected);
+        setPreview(URL.createObjectURL(selected));
+        setType(isImage ? "image" : "video");
+
+        if (isImage) setCropOpen(true);
+        if (isVideo) validateVideoDuration(selected);
     };
 
-    // Cropper logic
+    /** 🎥 Перевірка тривалості відео */
+    const validateVideoDuration = (file: File) => {
+        const video = document.createElement("video");
+        video.src = URL.createObjectURL(file);
+        video.onloadedmetadata = () => {
+            if (video.duration > MAX_VIDEO_DURATION) {
+                showAlert("Відео має бути ≤ 15 сек", "Помилка", "error");
+                setFile(null);
+                setPreview(null);
+                setType(null);
+            }
+        };
+    };
+
     const handleCropComplete = (_: Area, area: Area) => setCroppedAreaPixels(area);
 
+    /** ✂️ Зберегти кадрування */
     const handleCropSave = async () => {
         if (file && croppedAreaPixels) {
             const cropped = await getCroppedFile(file, croppedAreaPixels, "1:1");
             setCroppedFile(cropped);
-            const croppedUrl = URL.createObjectURL(cropped);
-            setPreview(croppedUrl);
+            setPreview(URL.createObjectURL(cropped));
             setCropOpen(false);
         }
     };
 
-    // Upload post
+    /** 🚀 Завантажити */
     const handleUploadPost = async () => {
-        if (!croppedFile || !postText) return;
+        const mediaFile = croppedFile || file;
+        if (!mediaFile || !postText || !type) return;
+
         setLoading(true);
         const formData = new FormData();
-        formData.append("file", croppedFile);
+        formData.append("file", mediaFile);
         formData.append("text", postText);
+        formData.append("type", type);
+
         try {
             await newRequest.post("/content/posts/upload", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: { "Content-Type": "multipart/form-data" },
             });
-            showAlert("Пост додано", "Успіх", "success");
+            showAlert("Пост успішно додано ✅", "Успіх", "success");
             setOpen(false);
             setFile(null);
-            setOriginalPreview(null);
             setPreview(null);
-            setCroppedFile(null);
             setPostText("");
             refreshPosts();
         } catch {
@@ -85,115 +120,115 @@ const PostsFunctionality: React.FC = () => {
         setLoading(false);
     };
 
-    // Edit post
+    /** ✏️ Редагування та видалення */
     const handleEditPost = async () => {
         if (!selectedPost || !editText) return;
         setLoading(true);
         try {
             await newRequest.put(`/content/posts/${selectedPost._id}`, { text: editText });
-            showAlert("Пост оновлено", "Успіх", "success");
+            showAlert("Пост оновлено ✅", "Успіх", "success");
             setEditOpen(false);
-            setSelectedPost(null);
             refreshPosts();
         } catch {
-            showAlert("Помилка при оновленні посту", "Помилка", "error");
+            showAlert("Помилка при оновленні", "Помилка", "error");
         }
         setLoading(false);
     };
 
-    // Delete post
     const handleDeletePost = async () => {
         if (!selectedPost) return;
         setLoading(true);
         try {
             await newRequest.delete(`/content/posts/${selectedPost._id}`);
-            showAlert("Пост видалено", "Успіх", "success");
+            showAlert("Пост видалено 🗑️", "Успіх", "success");
             setEditOpen(false);
-            setSelectedPost(null);
             refreshPosts();
         } catch {
-            showAlert("Помилка при видаленні посту", "Помилка", "error");
+            showAlert("Помилка при видаленні", "Помилка", "error");
         }
         setLoading(false);
     };
 
-    const renderPostsGrid = () => (
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 24 }}>
-            {posts.map(post => (
-                <div
-                    key={post._id}
-                    style={{ cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center" }}
-                    onClick={() => {
-                        setSelectedPost(post);
-                        setEditText(post.text);
-                        setEditOpen(true);
-                    }}
-                >
-                    <Image
-                        src={post.mediaUrl}
-                        alt="post"
-                        width={80}
-                        height={80}
-                        style={{ objectFit: "cover", borderRadius: 8 }}
-                    />
-                    <Typography level="body-md" sx={{ maxWidth: 80, textAlign: "center", fontSize: 12 }}>
-                        {post.text.length > 10 ? post.text.slice(0, 10) + "..." : post.text}
-                    </Typography>
-                </div>
-            ))}
-        </div>
-    );
-
     return (
         <div className={styles.functionality}>
-            <Divider title="Додати пост на сайт" description="Блок для додавання посту на сайт рілс/фото"/>
-            <ButtonUI color="tertiary" onClick={() => setOpen(true)}>
-                Додати пост
-            </ButtonUI>
-            {renderPostsGrid()}
+            <Divider title="Пости (фото та рілси)" description="Додавай квадратні фото або відео-рілси формату 9:16." />
+            <ButtonUI color="tertiary" onClick={() => setOpen(true)}>Додати пост</ButtonUI>
+
+            {/* Сітка постів */}
+            <div className={styles.mediaPreviewGrid}>
+                {posts.map((post) => (
+                    <div
+                        key={post._id}
+                        className={styles.mediaPreviewItem}
+                        onClick={() => {
+                            setSelectedPost(post);
+                            setEditText(post.text);
+                            setEditOpen(true);
+                        }}
+                    >
+                        {post.mediaType === "video" ? (
+                            <video src={post.mediaUrl} className={styles.videoThumb} />
+                        ) : (
+                            <Image src={post.mediaUrl} alt="post" width={80} height={80} className={styles.imageThumb} />
+                        )}
+                        <Typography level="body-sm" sx={{ textAlign: "center", mt: 0.5 }}>
+                            {post.text.slice(0, 20)}
+                        </Typography>
+                    </div>
+                ))}
+            </div>
+
+            {/* Додавання нового посту */}
             <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-                <DialogTitle>Додати пост</DialogTitle>
+                <DialogTitle>Новий пост</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                         <input
                             ref={fileInputRef}
                             type="file"
-                            accept="image/*"
+                            accept="image/*,video/*"
                             style={{ display: "none" }}
                             onChange={handleFileChange}
                         />
                         <ButtonUI color="secondary" onClick={() => fileInputRef.current?.click()}>
-                            Вибрати фото
+                            Вибрати фото або рілс
                         </ButtonUI>
+
                         {preview && (
-                            <Box sx={{ mt: 2 }}>
-                                <Image src={preview} alt="preview" width={120} height={120} style={{ borderRadius: 8, objectFit: "cover" }} />
+                            <Box sx={{ mt: 1 }}>
+                                {type === "video" ? (
+                                    <video src={preview} controls className={styles.videoPreview} />
+                                ) : (
+                                    <Image src={preview} alt="preview" width={120} height={120} className={styles.imagePreview} />
+                                )}
                             </Box>
                         )}
+
                         <Textarea
-                            placeholder="Опис посту"
+                            placeholder="Опис посту..."
                             value={postText}
-                            onChange={e => setPostText(e.target.value)}
+                            onChange={(e) => setPostText(e.target.value)}
                             minRows={3}
-                            sx={{ width: "100%" }}
                         />
                         <ButtonUI
                             color="primary"
                             onClick={handleUploadPost}
                             loading={loading}
-                            disabled={!croppedFile || !postText}
+                            disabled={!file || !postText}
                         >
                             Додати пост
                         </ButtonUI>
                     </Box>
+
+                    {/* Crop для фото */}
                     <Dialog open={cropOpen} onClose={() => setCropOpen(false)} maxWidth="xs" fullWidth>
                         <DialogTitle>Обрізати фото (1:1)</DialogTitle>
                         <DialogContent>
-                            {originalPreview && (
-                                <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}>
+                            {preview && (
+                                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                     <div style={{ position: "relative", width: "100%", height: 300 }}>
                                         <Cropper
-                                            image={originalPreview}
+                                            image={preview}
                                             crop={crop}
                                             zoom={zoom}
                                             aspect={1}
@@ -202,47 +237,31 @@ const PostsFunctionality: React.FC = () => {
                                             onCropComplete={handleCropComplete}
                                         />
                                     </div>
-                                    <Slider
-                                        value={zoom}
-                                        min={1}
-                                        max={3}
-                                        step={0.1}
-                                        onChange={(_, value) => setZoom(Number(value))}
-                                        sx={{ width: "100%" }}
-                                    />
-                                    <ButtonUI color="primary" onClick={handleCropSave} >
-                                        Зберегти обрізку
-                                    </ButtonUI>
+                                    <Slider value={zoom} min={1} max={3} step={0.1} onChange={(_, val) => setZoom(Number(val))} />
+                                    <ButtonUI color="primary" onClick={handleCropSave}>Зберегти обрізку</ButtonUI>
                                 </Box>
                             )}
                         </DialogContent>
                     </Dialog>
                 </DialogContent>
             </Dialog>
+
+            {/* Редагування посту */}
             <Dialog open={editOpen} onClose={() => setEditOpen(false)} maxWidth="sm" fullWidth>
                 <DialogTitle>Редагувати пост</DialogTitle>
                 <DialogContent>
                     {selectedPost && (
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                            <Image src={selectedPost.mediaUrl} alt="post" width={120} height={120} style={{ borderRadius: 8, objectFit: "cover" }} />
-                            <Textarea
-                                value={editText}
-                                onChange={e => setEditText(e.target.value)}
-                                minRows={3}
-                                sx={{ width: "100%" }}
-                            />
-                            <ButtonUI
-                                color="primary"
-                                onClick={handleEditPost}
-                                loading={loading}
-                            >
+                            {selectedPost.mediaType === "video" ? (
+                                <video src={selectedPost.mediaUrl} controls className={styles.videoPreview} />
+                            ) : (
+                                <Image src={selectedPost.mediaUrl} alt="post" width={120} height={120} className={styles.imagePreview} />
+                            )}
+                            <Textarea value={editText} onChange={(e) => setEditText(e.target.value)} minRows={3} />
+                            <ButtonUI color="primary" onClick={handleEditPost} loading={loading}>
                                 Зберегти
                             </ButtonUI>
-                            <ButtonUI
-                                color="error"
-                                onClick={handleDeletePost}
-                                loading={loading}
-                            >
+                            <ButtonUI color="error" onClick={handleDeletePost} loading={loading}>
                                 Видалити
                             </ButtonUI>
                         </Box>

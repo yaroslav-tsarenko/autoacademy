@@ -1,0 +1,93 @@
+.storyDialog {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
+.progressBarContainer {
+  display: flex;
+  gap: 4px;
+  width: 90%;
+  max-width: 600px;
+  margin: 16px auto;
+  position: relative;
+  z-index: 2;
+}
+
+.progressBar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  width: 0;
+  background: #fff;
+  border-radius: 2px;
+  animation: fill linear forwards;
+}
+
+.completed {
+  width: 100%;
+}
+
+.paused {
+  animation-play-state: paused;
+}
+
+@keyframes fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.storyContent {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.storyMediaWrapper {
+  width: 450px;
+  height: 800px;
+  aspect-ratio: 9 / 16;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 90vh;
+
+  img,
+  video {
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .storyMediaWrapper {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+  }
+}

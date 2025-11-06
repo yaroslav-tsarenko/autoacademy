@@ -1,29 +1,31 @@
 "use client";
 
 import React from "react";
-import {Fade} from "react-awesome-reveal";
+import dynamic from "next/dynamic";
 import Hero from "@/components/hero/Hero";
-import Stories from "@/components/stories/Stories";
-import Gallery from "@/components/gallery/Gallery";
-import FAQ from "@/components/faq/FAQ";
-import Instructors from "@/components/instructors/Instructors";
-import Reviews from "@/components/reviews/Reviews";
-import Benefits from "@/components/benefits/Benefits";
-import Services from "@/components/services/Services";
-import AboutUs from "@/components/about-us/AboutUs";
+import { Fade } from "react-awesome-reveal";
 
-const Home = () => {
+const Stories = dynamic(() => import("@/components/stories/Stories"), { ssr: false, loading: () => <div /> });
+const Gallery = dynamic(() => import("@/components/gallery/Gallery"), { ssr: false, loading: () => <div /> });
+const AboutUs = dynamic(() => import("@/components/about-us/AboutUs"), { ssr: false, loading: () => <div /> });
+const Services = dynamic(() => import("@/components/services/Services"), { ssr: false, loading: () => <div /> });
+const Benefits = dynamic(() => import("@/components/benefits/Benefits"), { ssr: false, loading: () => <div /> });
+const Reviews = dynamic(() => import("@/components/reviews/Reviews"), { ssr: false, loading: () => <div /> });
+const Instructors = dynamic(() => import("@/components/instructors/Instructors"), { ssr: false, loading: () => <div /> });
+const FAQ = dynamic(() => import("@/components/faq/FAQ"), { ssr: false, loading: () => <div /> });
+
+const Home: React.FC = () => {
     return (
         <>
-            <Hero/>
-            <Stories/>
-            <Gallery/>
-            <AboutUs/>
-            <Services/>
-            <Benefits/>
-            <Reviews/>
-            <Instructors/>
-            <FAQ/>
+            <Hero />
+            <Stories />
+            <Gallery />
+            <AboutUs />
+            <Services />
+            <Benefits />
+            <Reviews />
+            <Instructors />
+            <FAQ />
         </>
     );
 };
