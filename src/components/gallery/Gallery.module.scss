@@ -30,10 +30,9 @@
   width: 100%;
   overflow: hidden;
   width: 310px;
-  height: 415px;
+  height: 310px;
   border-radius: 1px;
   border: 1px solid rgba(99, 99, 99, 0.13);
-
 
   @media screen and (max-width: 1028px) {
     width: 120px;
@@ -42,8 +41,9 @@
 }
 
 .photo {
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.25s ease;
+
 }
 
 .photoItem:hover .photo {

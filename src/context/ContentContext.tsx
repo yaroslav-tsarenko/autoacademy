@@ -218,6 +218,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
 
     const refreshTariffs = async () => {
+        if (tariffs.length > 0) return;
         try {
             const res = await newRequest.get("/content/tariffs");
             setTariffs(res.data || []);

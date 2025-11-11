@@ -18,8 +18,6 @@ import { useContent, Post } from "@/context/ContentContext";
 import { newRequest } from "@/utils/newRequest";
 import styles from "./AdminContent.module.scss";
 
-const MAX_VIDEO_DURATION = 15; // секунд
-const MAX_FILE_SIZE_MB = 15;
 
 const PostsFunctionality: React.FC = () => {
     const [open, setOpen] = useState(false);
@@ -41,6 +39,9 @@ const PostsFunctionality: React.FC = () => {
     const { posts, refreshPosts } = useContent();
 
     /** 🧩 Вибір файлу */
+    const MAX_VIDEO_DURATION = 300; // секунд (5 хвилин)
+    const MAX_FILE_SIZE_MB = 100;
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selected = e.target.files?.[0];
         if (!selected) return;
@@ -50,7 +51,7 @@ const PostsFunctionality: React.FC = () => {
         const sizeMB = selected.size / (1024 * 1024);
 
         if (sizeMB > MAX_FILE_SIZE_MB) {
-            showAlert("Файл занадто великий (до 15 МБ)", "Помилка", "error");
+            showAlert("Файл занадто великий (до 100 МБ)", "Помилка", "error");
             return;
         }
 
@@ -67,19 +68,19 @@ const PostsFunctionality: React.FC = () => {
         if (isVideo) validateVideoDuration(selected);
     };
 
-    /** 🎥 Перевірка тривалості відео */
     const validateVideoDuration = (file: File) => {
         const video = document.createElement("video");
         video.src = URL.createObjectURL(file);
         video.onloadedmetadata = () => {
             if (video.duration > MAX_VIDEO_DURATION) {
-                showAlert("Відео має бути ≤ 15 сек", "Помилка", "error");
+                showAlert("Відео має бути ≤ 5 хв", "Помилка", "error");
                 setFile(null);
                 setPreview(null);
                 setType(null);
             }
         };
     };
+
 
     const handleCropComplete = (_: Area, area: Area) => setCroppedAreaPixels(area);
 
