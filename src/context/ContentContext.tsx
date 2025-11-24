@@ -142,21 +142,38 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [tariffs, setTariffs] = useState<Tariff[]>([]);
     const [contentLoaded, setContentLoaded] = useState(false);
 
+    async function fetchWithCache<T>(key: string, fetcher: () => Promise<T>, fallback: T): Promise<T> {
+        try {
+            const data = await fetcher();
+            localStorage.setItem(key, JSON.stringify(data));
+            return data;
+        } catch (err) {
+            console.warn(`Loading from cache: ${key}`, err);
+            const cached = localStorage.getItem(key);
+            if (cached) {
+                return JSON.parse(cached);
+            }
+            return fallback;
+        }
+    }
+
     const refreshInstructors = async () => {
-        try {
-            const res = await newRequest.get("/content/instructors/get-all");
-            setInstructors(res.data);
-        } catch {
-            setInstructors([]);
-        }
+        const data = await fetchWithCache<Instructor[]>(
+            "instructors-cache",
+            async () => (await newRequest.get("/content/instructors/get-all")).data,
+            []
+        );
+        setInstructors(data);
     };
+
+
     const refreshMainSection = async () => {
-        try {
-            const res = await newRequest.get("/content/main-section/get");
-            setMainSection(res.data || null);
-        } catch {
-            setMainSection(null);
-        }
+        const data = await fetchWithCache<MainSection | null>(
+            "main-section-cache",
+            async () => (await newRequest.get("/content/main-section/get")).data,
+            null
+        );
+        setMainSection(data);
     };
 
     const upsertMainSection = async (data: MainSection) => {
@@ -164,67 +181,67 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         await refreshMainSection();
     };
     const refreshReviews = async () => {
-        try {
-            const res = await newRequest.get("/content/reviews/get-all");
-            setReviews(res.data);
-        } catch {
-            setReviews([]);
-        }
+        const data = await fetchWithCache<Review[]>(
+            "reviews-cache",
+            async () => (await newRequest.get("/content/reviews/get-all")).data,
+            []
+        );
+        setReviews(data);
     };
 
     const refreshFaqs = async () => {
-        try {
-            const res = await newRequest.get("/content/faqs/get-all");
-            setFaqs(res.data || []);
-        } catch {
-            setFaqs([]);
-        }
+        const data = await fetchWithCache<Faq[]>(
+            "faqs-cache",
+            async () => (await newRequest.get("/content/faqs/get-all")).data,
+            []
+        );
+        setFaqs(data);
     };
 
     const refreshSlider = async () => {
-        try {
-            const res = await newRequest.get("/content/slider/get-all");
-            setSliderImages(res.data);
-        } catch {
-            setSliderImages([]);
-        }
+        const data = await fetchWithCache<string[]>(
+            "slider-cache",
+            async () => (await newRequest.get("/content/slider/get-all")).data,
+            []
+        );
+        setSliderImages(data);
     };
 
     const refreshPosts = async () => {
-        try {
-            const res = await newRequest.get("/content/posts/get-all");
-            setPosts(res.data);
-        } catch {
-            setPosts([]);
-        }
+        const data = await fetchWithCache<Post[]>(
+            "posts-cache",
+            async () => (await newRequest.get("/content/posts/get-all")).data,
+            []
+        );
+        setPosts(data);
     };
 
     const refreshStories = async () => {
-        try {
-            const res = await newRequest.get("/content/stories/get-all");
-            setStories(res.data);
-        } catch {
-            setStories([]);
-        }
+        const data = await fetchWithCache<Story[]>(
+            "stories-cache",
+            async () => (await newRequest.get("/content/stories/get-all")).data,
+            []
+        );
+        setStories(data);
     };
 
     const refreshActuals = async () => {
-        try {
-            const res = await newRequest.get("/content/actuals/get-all");
-            setActuals(res.data);
-        } catch {
-            setActuals([]);
-        }
+        const data = await fetchWithCache<Actual[]>(
+            "actuals-cache",
+            async () => (await newRequest.get("/content/actuals/get-all")).data,
+            []
+        );
+        setActuals(data);
     };
 
+
     const refreshTariffs = async () => {
-        if (tariffs.length > 0) return;
-        try {
-            const res = await newRequest.get("/content/tariffs");
-            setTariffs(res.data || []);
-        } catch (err) {
-            console.error("Failed to fetch tariffs", err);
-        }
+        const data = await fetchWithCache<Tariff[]>(
+            "tariffs-cache",
+            async () => (await newRequest.get("/content/tariffs")).data,
+            []
+        );
+        setTariffs(data);
     };
 
     const createTariff = async (payload: Partial<Tariff>) => {

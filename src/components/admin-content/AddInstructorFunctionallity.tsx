@@ -215,11 +215,27 @@ const AddInstructorFunctionality: React.FC = () => {
                         <Select
                             multiple
                             value={form.characteristics}
-                            onChange={(_event: React.SyntheticEvent | null, value: string | string[] | null) =>
-                                setForm({ ...form, characteristics: (Array.isArray(value) ? value : value ? [value] : []) })
+                            onChange={(_e, value) =>
+                                setForm({
+                                    ...form,
+                                    characteristics: Array.isArray(value) ? value : value ? [value] : []
+                                })
                             }
                             placeholder="Оберіть характеристику"
-                            sx={{ width: "100%" }}
+                            sx={{ width: "100%", zIndex: 999999 }}
+                            slotProps={{
+                                listbox: {
+                                    sx: {
+                                        zIndex: 999999, // щоб точно було над попапом
+                                    }
+                                },
+                                root: {
+                                    sx: { zIndex: 999999 },
+                                },
+                                button: {
+                                    sx: { zIndex: 999999 },
+                                },
+                            }}
                         >
                             {CHARACTERISTICS.map((c) => (
                                 <Option key={c} value={c}>
@@ -235,12 +251,12 @@ const AddInstructorFunctionality: React.FC = () => {
                             style={{ display: "none" }}
                             onChange={handleFileChange}
                         />
-                        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                        <Box sx={{ display: "flex", gap: 2, alignItems: "center", flexDirection: "column" }}>
                             <ButtonUI color="secondary" onClick={() => photoInputRef.current?.click()}>
                                 Обрати фото
                             </ButtonUI>
                             {photoPreview && (
-                                <div style={{ width: 96, height: 96, position: "relative", borderRadius: 8, overflow: "hidden" }}>
+                                <div style={{ width: 196, height: 196, position: "relative", borderRadius: 8, overflow: "hidden" }}>
                                     <Image src={photoPreview} alt="preview" fill style={{ objectFit: "cover" }} />
                                 </div>
                             )}
