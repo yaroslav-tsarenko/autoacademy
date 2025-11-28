@@ -39,12 +39,12 @@ const ActualsFunctionality: React.FC = () => {
 
     const [loading, setLoading] = useState(false);
 
-    // Handlers for Add Actual
     const handleActualFilesSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []).slice(0, 5);
+        const files = Array.from(e.target.files || []); // ⬅️ БЕЗ slice(0, 5)
         setActualFiles(files);
         setActualFilesPreview(files.map(file => URL.createObjectURL(file)));
     };
+
     const handleThumbnailFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
         setThumbnailFile(file);
